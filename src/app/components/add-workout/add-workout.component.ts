@@ -1,29 +1,43 @@
-import { Component } from '@angular/core';
-import { WorkoutService } from '../../services/workout.service';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-add-workout',
   templateUrl: './add-workout.component.html',
-  styleUrls: ['./add-workout.component.css']
+  styleUrls: ['./add-workout.component.css'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule
+  ]
 })
-export class AddWorkoutComponent {
-  userName: string = '';
-  workoutType: string = 'Running';
-  workoutMinutes: number = 0;
+export class AddWorkoutComponent implements OnInit {
+  workoutForm: FormGroup;
 
-  constructor(private workoutService: WorkoutService) {}
-
-  addWorkout() {
-    if (!this.userName || this.workoutMinutes <= 0) return;
-
-    this.workoutService.addWorkout({
-      userName: this.userName,
-      workoutType: this.workoutType,
-      workoutMinutes: this.workoutMinutes,
-      date: new Date(),
+  constructor(private fb: FormBuilder) {
+    this.workoutForm = this.fb.group({
+      userName: ['', Validators.required],
+      workoutType: ['Running', Validators.required],
+      workoutMinutes: ['', [Validators.required, Validators.min(1)]]
     });
+  }
 
-    this.userName = '';
-    this.workoutMinutes = 0;
+  ngOnInit(): void {
+    // Component initialization logic if needed
+  }
+
+  onSubmit() {
+    if (this.workoutForm.valid) {
+      console.log(this.workoutForm.value);
+      // Handle form submission
+    } else {
+      Object.keys(this.workoutForm.controls).forEach(key => {
+        const control = this.workoutForm.get(key);
+        if (control?.invalid) {
+          control.markAsTouched();
+        }
+      });
+    }
   }
 }
