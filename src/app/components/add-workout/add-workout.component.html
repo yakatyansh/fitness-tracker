@@ -1,34 +1,69 @@
-<div class="container">
-    <h2>Add Workout</h2>
-    <form [formGroup]="workoutForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-            <label for="userName">UserName</label>
-            <input type="text" 
-                   class="form-control" 
-                   id="userName" 
-                   formControlName="userName">
-        </div>
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">Add Workout</h2>
+        
+        <form [formGroup]="workoutForm" (ngSubmit)="onSubmit()" class="space-y-4">
+            <div class="space-y-2">
+                <label for="userName" class="block text-sm font-medium text-gray-700">
+                    Username
+                </label>
+                <input type="text" 
+                       id="userName" 
+                       formControlName="userName"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            </div>
 
-        <div class="form-group">
-            <label for="workoutType">Workout Type:</label>
-            <select class="form-control"
-                    id="workoutType"
-                    formControlName="workoutType">
-                <option value="Running">Running</option>
-                <option value="Cycling">Cycling</option>
-                <option value="Yoga">Yoga</option>
-                <option value="Strength Training">Strength Training</option>
-            </select>
-        </div>
+            <div class="space-y-2">
+                <label for="workoutType" class="block text-sm font-medium text-gray-700">
+                    Workout Type
+                </label>
+                <select id="workoutType" 
+                        formControlName="workoutType"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
+                    <option value="Running">Running</option>
+                    <option value="Cycling">Cycling</option>
+                    <option value="Yoga">Yoga</option>
+                    <option value="Strength Training">Strength Training</option>
+                </select>
+            </div>
 
-        <div class="form-group">
-            <label for="workoutMinutes">Workout Minutes:</label>
-            <input type="number" 
-                   class="form-control"
-                   id="workoutMinutes" 
-                   formControlName="workoutMinutes">
-        </div>
+            <div class="space-y-2">
+                <label for="workoutMinutes" class="block text-sm font-medium text-gray-700">
+                    Workout Minutes
+                </label>
+                <input type="number" 
+                       id="workoutMinutes" 
+                       formControlName="workoutMinutes"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            </div>
 
-        <button type="submit" [disabled]="!workoutForm.valid">Add Workout</button>
-    </form>
+            <div class="flex items-center justify-between mt-6">
+                <button type="submit" 
+                        [disabled]="!workoutForm.valid"
+                        [ngClass]="{
+                            'bg-blue-600 hover:bg-blue-700': workoutForm.valid,
+                            'bg-gray-400 cursor-not-allowed': !workoutForm.valid
+                        }"
+                        class="w-full px-4 py-2 text-white font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Add Workout
+                </button>
+            </div>
+
+            <!-- Error messages -->
+            <div *ngIf="workoutForm.get('userName')?.touched && workoutForm.get('userName')?.invalid" 
+                 class="text-red-500 text-sm mt-1">
+                Username is required
+            </div>
+            
+            <div *ngIf="workoutForm.get('workoutMinutes')?.touched && workoutForm.get('workoutMinutes')?.invalid" 
+                 class="text-red-500 text-sm mt-1">
+                <span *ngIf="workoutForm.get('workoutMinutes')?.errors?.['required']">
+                    Workout minutes is required
+                </span>
+                <span *ngIf="workoutForm.get('workoutMinutes')?.errors?.['min']">
+                    Workout minutes must be greater than 0
+                </span>
+            </div>
+        </form>
+    </div>
 </div>
