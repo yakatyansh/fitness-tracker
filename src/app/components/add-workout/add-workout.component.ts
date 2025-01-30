@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { WorkoutService } from 'src/app/services/workout.service';
+import { WorkoutService } from '../../services/workout.service';
 
 @Component({
   selector: 'app-add-workout',
