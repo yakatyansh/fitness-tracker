@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-add-workout',
   templateUrl: './add-workout.component.html',
-  styleUrls: ['./add-workout.component.css'],
   standalone: true,
   imports: [
     CommonModule,
@@ -18,7 +17,7 @@ export class AddWorkoutComponent implements OnInit {
   constructor(private fb: FormBuilder) {
     this.workoutForm = this.fb.group({
       userName: ['', Validators.required],
-      workoutType: ['Running', Validators.required],
+      workoutType: ['', Validators.required],
       workoutMinutes: ['', [Validators.required, Validators.min(1)]]
     });
   }
