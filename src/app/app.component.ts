@@ -7,10 +7,7 @@ import { WorkoutListComponent } from "./components/workout-list/workout-list.com
   selector: 'app-root',
   standalone: true,
   imports: [AddWorkoutComponent, WorkoutListComponent],
-  template: ` <div class="bg-gray-50">
-      <app-add-workout></app-add-workout>
-      <app-workout-list></app-workout-list>
-    </div>`,
+  templateUrl:'./app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
