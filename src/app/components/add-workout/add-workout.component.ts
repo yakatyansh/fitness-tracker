@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 interface Workout {
+  user: string;
   type: string;
   minutes: number;
 }
@@ -55,6 +56,7 @@ export class AddWorkoutComponent {
     const user = this.users.find(u => u.id === this.selectedUserId);
     if (user) {
       user.workouts.push({
+        user: this.UserName,
         type: this.selectedWorkoutType,
         minutes: this.workoutMinutes,
       });
@@ -68,7 +70,7 @@ export class AddWorkoutComponent {
   }
 
   resetForm() {
-    this.selectedUserId = null;
+    this.UserName = '';
     this.selectedWorkoutType = '';
     this.workoutMinutes = null;
   }

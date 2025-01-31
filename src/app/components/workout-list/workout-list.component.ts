@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 interface Workout {
+  user: string;
   type: string;
   minutes: number;
 }
