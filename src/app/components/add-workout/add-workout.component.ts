@@ -26,13 +26,13 @@ export class AddWorkoutComponent {
   selectedUserId: number | null = null;
   selectedWorkoutType: string = '';
   workoutMinutes: number | null = null;
+  UserName: string = '';
 
   @Output() workoutAdded = new EventEmitter<void>();
 
   constructor() { }
 
   ngOnInit() {
-    // Make sure localStorage is available
     if (typeof window !== 'undefined') {
       const storedWorkouts = localStorage.getItem('workouts');
       this.workouts = storedWorkouts ? JSON.parse(storedWorkouts) : [];
@@ -47,7 +47,7 @@ export class AddWorkoutComponent {
   }
 
   addWorkout() {
-    if (this.selectedUserId === null || !this.selectedWorkoutType || this.workoutMinutes === null) {
+    if (this.UserName === "" || !this.selectedWorkoutType || this.workoutMinutes === null) {
       alert('Please fill all fields!');
       return;
     }
