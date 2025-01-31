@@ -19,7 +19,13 @@ export class WorkoutListComponent {
   ];
   filteredWorkouts = [...this.workouts]; 
 
-  filterWorkout(type: string) {
-    this.filteredWorkouts = this.workouts.filter(workout => workout.workoutType === type);
-  }
+  filterWorkout(event: Event) {
+    const target = event.target as HTMLSelectElement; // Type assertion
+    const selectedValue = target.value; 
+  
+    this.filteredWorkouts = this.workouts.filter(workout =>
+      selectedValue ? workout.workoutType === selectedValue : true
+    );
+  }  
+  
 }

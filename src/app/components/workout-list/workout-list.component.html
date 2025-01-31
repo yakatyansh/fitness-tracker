@@ -1,11 +1,9 @@
-<div class="max-w-2xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
+<div class="max-w-full bg-gray-50 mx-auto mt-10 p-6">
     <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Workout List</h2>
   
-    <!-- Dropdown for Filtering -->
     <div class="mb-4 flex justify-center">
       <label class="mr-2 font-medium text-gray-700">Filter by Type:</label>
-      <select class="border border-gray-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-300" 
-              (change)="filterWorkout($event.target.value)">
+      <select (change)="filterWorkout($event)">
         <option value="">All</option>
         <option value="Running">Running</option>
         <option value="Cycling">Cycling</option>
@@ -14,10 +12,9 @@
       </select>
     </div>
   
-    <!-- Workout List -->
     <ul class="space-y-3">
       <li *ngFor="let workout of filteredWorkouts" 
-          class="bg-blue-100 border border-blue-300 p-4 rounded-lg shadow-md flex justify-between items-center">
+          class="  p-4 rounded-lg  flex justify-between items-center">
         <div>
           <p class="font-semibold text-blue-800">{{ workout.UserName }}</p>
           <p class="text-gray-600">{{ workout.workoutType }}</p>
