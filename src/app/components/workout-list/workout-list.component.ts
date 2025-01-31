@@ -26,7 +26,6 @@ export class WorkoutListComponent implements OnInit {
     this.loadData();
   }
 
-  // Load data from localStorage
   loadData() {
     const data = localStorage.getItem('userData');
     if (data) {
@@ -35,12 +34,11 @@ export class WorkoutListComponent implements OnInit {
     this.filteredWorkouts = this.getAllWorkouts();
   }
 
-  // Get all workouts
+
   getAllWorkouts(): Workout[] {
     return this.users.flatMap(user => user.workouts);
   }
 
-  // Filter workouts
   filterWorkout(event: Event) {
     const selectedValue = (event.target as HTMLSelectElement).value;
     this.filteredWorkouts = selectedValue
@@ -48,7 +46,7 @@ export class WorkoutListComponent implements OnInit {
       : this.getAllWorkouts();
   }
 
-  // Refresh the workout list when a new workout is added
+
   refreshWorkouts() {
     this.loadData();
   }
