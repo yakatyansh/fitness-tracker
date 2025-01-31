@@ -1,26 +1,23 @@
-<div class="max-w-full bg-gray-50 mx-auto mt-10 p-6">
-    <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Workout List</h2>
-  
-    <div class="mb-4 flex justify-center">
-      <label class="mr-2 font-medium text-gray-700">Filter by Type:</label>
-      <select (change)="filterWorkout($event)">
-        <option value="">All</option>
-        <option value="Running">Running</option>
-        <option value="Cycling">Cycling</option>
-        <option value="Yoga">Yoga</option>
-        <option value="Strength Training">Strength Training</option>
-      </select>
-    </div>
-  
-    <ul class="space-y-3">
-      <li *ngFor="let workout of filteredWorkouts" 
-          class="  p-4 rounded-lg  flex justify-between items-center">
-        <div>
-          <p class="font-semibold text-blue-800">{{ workout.UserName }}</p>
-        </div>
-        <p class="text-gray-600">{{ workout.workoutType }}</p>
-        <span class="text-blue-600 font-semibold">{{ workout.workoutMinutes }} min</span>
-      </li>
-    </ul>
+<div>
+  <h2 class="text-xl font-bold mb-4">Workout List</h2>
+
+  <!-- Filter Dropdown -->
+  <div class="mb-4">
+    <label class="block mb-1 font-medium text-gray-700">Filter by Type:</label>
+    <select (change)="filterWorkout($event)" class="w-full p-2 border border-gray-300 rounded-md">
+      <option value="">All</option>
+      <option value="Running">Running</option>
+      <option value="Cycling">Cycling</option>
+      <option value="Swimming">Swimming</option>
+      <option value="Yoga">Yoga</option>
+    </select>
   </div>
-  
+
+  <!-- Workout List -->
+  <ul class="divide-y divide-gray-300">
+    <li *ngFor="let workout of filteredWorkouts" class="p-2 flex justify-between">
+      <span class="font-semibold">{{ workout.type }}</span>
+      <span>{{ workout.minutes }} min</span>
+    </li>
+  </ul>
+</div>

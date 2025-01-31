@@ -1,42 +1,72 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+interface Workout {
+  type: string;
+  minutes: number;
+}
+
+interface User {
+  id: number;
+  name: string;
+  workouts: Workout[];
+}
 
 @Component({
   selector: 'app-add-workout',
-  templateUrl: './add-workout.component.html',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule
-  ]
+  imports: [CommonModule,FormsModule],
+  templateUrl: './add-workout.component.html',
 })
-export class AddWorkoutComponent implements OnInit {
-  workoutForm: FormGroup;
+export class AddWorkoutComponent {
+  users: User[] = [];
 
-  constructor(private fb: FormBuilder) {
-    this.workoutForm = this.fb.group({
-      userName: ['', Validators.required],
-      workoutType: ['', Validators.required],
-      workoutMinutes: ['', [Validators.required, Validators.min(1)]]
-    });
+  selectedUserId: number | null = null;
+  selectedWorkoutType: string = '';
+  workoutMinutes: number | null = null;
+
+  // Emit event when a workout is added
+  @Output() workoutAdded = new EventEmitter<void>();
+
+  constructor() {
+    this.loadUsers();
   }
 
-  ngOnInit(): void {
-    // Component initialization logic if needed
-  }
-
-  onSubmit() {
-    if (this.workoutForm.valid) {
-      console.log(this.workoutForm.value);
-      // Handle form submission
-    } else {
-      Object.keys(this.workoutForm.controls).forEach(key => {
-        const control = this.workoutForm.get(key);
-        if (control?.invalid) {
-          control.markAsTouched();
-        }
-      });
+  // Load users from localStorage
+  loadUsers() {
+    const data = localStorage.getItem('userData');
+    if (data) {
+      this.users = JSON.parse(data);
     }
+  }
+
+  // Add workout and update localStorage
+  addWorkout() {
+    if (this.selectedUserId === null || !this.selectedWorkoutType || this.workoutMinutes === null) {
+      alert('Please fill all fields!');
+      return;
+    }
+
+    const user = this.users.find(u => u.id === this.selectedUserId);
+    if (user) {
+      user.workouts.push({
+        type: this.selectedWorkoutType,
+        minutes: this.workoutMinutes,
+      });
+
+      localStorage.setItem('userData', JSON.stringify(this.users)); // Save to localStorage
+      this.workoutAdded.emit(); // Notify WorkoutListComponent
+
+      alert('Workout added successfully!');
+      this.resetForm();
+    }
+  }
+
+  // Reset form fields after adding a workout
+  resetForm() {
+    this.selectedUserId = null;
+    this.selectedWorkoutType = '';
+    this.workoutMinutes = null;
   }
 }

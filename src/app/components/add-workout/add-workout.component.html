@@ -1,72 +1,33 @@
-<div class=" bg-gray-50 py-8">
-    <div class="max-w-screen mx-auto rounded-lg  p-6">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6">Add Workout</h2>
-        
-        <form [formGroup]="workoutForm" (ngSubmit)="onSubmit()" class="grid grid-cols-4 gap-6">
-            <div class="space-y-2">
-                <label for="userName" class="block text-sm font-medium text-gray-700">
-                    Username
-                </label>
-                <input type="text" 
-                       id="userName" 
-                       formControlName="userName"
-                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-            </div>
-
-            <div class="space-y-2">
-                <label for="workoutType" class="block text-sm font-medium text-gray-700">
-                    Workout Type
-                </label>
-                <select id="workoutType" 
-                        formControlName="workoutType"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
-                    <option value="Running">Running</option>
-                    <option value="Cycling">Cycling</option>
-                    <option value="Yoga">Yoga</option>
-                    <option value="Strength Training">Strength Training</option>
-                </select>
-            </div>
-
-            <div class="space-y-2">
-                <label for="workoutMinutes" class="block text-sm font-medium text-gray-700">
-                    Workout Minutes
-                </label>
-                <input type="number" 
-                       id="workoutMinutes" 
-                       formControlName="workoutMinutes"
-                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-            </div>
-
-            <div class="flex items-center justify-between mt-6">
-                <button type="submit" 
-                        [disabled]="!workoutForm.valid"
-                        [ngClass]="{
-                            'bg-blue-600 hover:bg-blue-700': workoutForm.valid,
-                            'bg-gray-400 cursor-not-allowed': !workoutForm.valid
-                        }"
-                        class="w-full px-4 py-2 text-white font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    Add Workout
-                </button>
-            </div>
-
-            <!-- Error messages -->
-            <div *ngIf="workoutForm.get('userName')?.touched && workoutForm.get('userName')?.invalid" 
-                 class="text-red-500 text-sm mt-1">
-                Username is required
-            </div>
-            <div *ngIf="workoutForm.get('workoutType')?.touched && workoutForm.get('workoutType')?.invalid" 
-                class="text-red-500 text-sm mt-1">
-                Workout type is required
-            </div>
-            <div *ngIf="workoutForm.get('workoutMinutes')?.touched && workoutForm.get('workoutMinutes')?.invalid" 
-                 class="text-red-500 text-sm mt-1">
-                <span *ngIf="workoutForm.get('workoutMinutes')?.errors?.['required']">
-                    Workout minutes is required
-                </span>
-                <span *ngIf="workoutForm.get('workoutMinutes')?.errors?.['min']">
-                    Workout minutes must be greater than 0
-                </span>
-            </div>
-        </form>
-    </div>
-</div>
+<div>
+    <h2 class="text-xl font-bold mb-4">Add Workout</h2>
+  
+    <!-- Select User -->
+    <label class="block mb-1 font-medium">Select User:</label>
+    <select [(ngModel)]="selectedUserId" class="w-full p-2 border border-gray-300 rounded-md">
+      <option [value]="null" disabled>Select a user</option>
+      <option *ngFor="let user of users" [value]="user.id">{{ user.name }}</option>
+    </select>
+  
+    <!-- Select Workout Type -->
+    <label class="block mt-4 mb-1 font-medium">Workout Type:</label>
+    <select [(ngModel)]="selectedWorkoutType" class="w-full p-2 border border-gray-300 rounded-md">
+      <option value="" disabled>Select workout type</option>
+      <option value="Running">Running</option>
+      <option value="Cycling">Cycling</option>
+      <option value="Swimming">Swimming</option>
+      <option value="Yoga">Yoga</option>
+    </select>
+  
+    <!-- Enter Minutes -->
+    <label class="block mt-4 mb-1 font-medium">Minutes:</label>
+    <input type="number" [(ngModel)]="workoutMinutes" class="w-full p-2 border border-gray-300 rounded-md" />
+  
+    <!-- Add Workout Button -->
+    <button
+      class="mt-4 w-full bg-blue-500 text-white py-2 rounded-md"
+      (click)="addWorkout()"
+    >
+      Add Workout
+    </button>
+  </div>
+  
