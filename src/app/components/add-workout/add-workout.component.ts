@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 interface Workout {
   user: string;
@@ -17,61 +17,59 @@ interface User {
 @Component({
   selector: 'app-add-workout',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './add-workout.component.html',
 })
 export class AddWorkoutComponent {
   users: User[] = [];
-  workouts: Workout[] = [];
-
-  selectedUserId: number | null = null;
   selectedWorkoutType: string = '';
-  workoutMinutes: number | null = null;
+  workoutMinutes: number = 0;
   UserName: string = '';
 
   @Output() workoutAdded = new EventEmitter<void>();
 
-  constructor() { }
-
   ngOnInit() {
-    if (typeof window !== 'undefined') {
-      const storedWorkouts = localStorage.getItem('workouts');
-      this.workouts = storedWorkouts ? JSON.parse(storedWorkouts) : [];
-    }
+    this.loadUsers();
   }
 
   loadUsers() {
-    const data = localStorage.getItem('userData');
-    if (data) {
-      this.users = JSON.parse(data);
-    }
+    const storedUsers = localStorage.getItem('userData');
+    this.users = storedUsers ? JSON.parse(storedUsers) : [];
   }
 
-  addWorkout() {
-    if (this.UserName === "" || !this.selectedWorkoutType || this.workoutMinutes === null) {
+  addUser() {
+    if (this.UserName === "" || !this.selectedWorkoutType || this.workoutMinutes === 0) {
       alert('Please fill all fields!');
       return;
     }
 
-    const user = this.users.find(u => u.id === this.selectedUserId);
+    const newUser: User = {
+      id: Date.now(),
+      name: this.UserName,
+      workouts: [{
+        user: this.UserName,
+        type: this.selectedWorkoutType,
+        minutes: this.workoutMinutes,
+      }],
+    };
+
+    this.users.push(newUser);
+    localStorage.setItem('userData', JSON.stringify(this.users));
+    alert('User added successfully!');
+  }
+
+  addWorkoutToExistingUser() {
+    const user = this.users.find(u => u.name === this.UserName);
     if (user) {
       user.workouts.push({
         user: this.UserName,
         type: this.selectedWorkoutType,
         minutes: this.workoutMinutes,
       });
-
-      localStorage.setItem('userData', JSON.stringify(this.users)); 
-      this.workoutAdded.emit(); 
-
-      alert('Workout added successfully!');
-      this.resetForm();
+      localStorage.setItem('userData', JSON.stringify(this.users));
+      alert('Workout added to existing user!');
+    } else {
+      alert('User not found!');
     }
-  }
-
-  resetForm() {
-    this.UserName = '';
-    this.selectedWorkoutType = '';
-    this.workoutMinutes = null;
   }
 }
