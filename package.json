@@ -28,7 +28,9 @@
     "tailwind": "^3.0.0",
     "tailwindcss": "^3.0.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.3"
+    "zone.js": "~0.14.3",
+    "autoprefixer": "^10.x.x"
+
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.3.11",
