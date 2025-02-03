@@ -33,9 +33,12 @@ export class AddWorkoutComponent {
   }
 
   loadUsers() {
-    const storedUsers = localStorage.getItem('userData');
-    this.users = storedUsers ? JSON.parse(storedUsers) : [];
+    if (typeof window !== 'undefined') {
+      const users = localStorage.getItem('users');
+      this.users = users ? JSON.parse(users) : [];
+    }
   }
+  
 
   addUser() {
     if (this.UserName === "" || !this.selectedWorkoutType || this.workoutMinutes === 0) {
